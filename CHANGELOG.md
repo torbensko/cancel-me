@@ -2,6 +2,14 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [2.0.1] - 2024-01-12
+
+### Fixed
+- Netflix cancellation loop - now properly clicks "Finish cancellation" button in expanded section
+- Added force click capability for hidden elements in collapsed sections
+- Updated Netflix selectors to include `data-uia="action-finish-cancellation"`
+- Increased wait time after initial cancel button click to allow section to expand
+
 ## [2.0.0] - 2024-01-12
 
 ### Added

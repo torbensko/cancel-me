@@ -45,9 +45,11 @@ const serviceConfigs = {
     },
     cancelSequence: [
       { action: 'navigate', url: 'https://www.netflix.com/account/membership', wait: 3000 },
-      { selector: 'button[data-uia="cancel-button"], button[data-cl-view="cancelMembership"], button:contains("Cancel membership")', action: 'click', wait: 2000 },
-      { selector: 'button[data-uia="confirm-cancel"], button:contains("Finish Cancellation"), button:contains("Complete Cancellation")', action: 'click', wait: 2000 },
-      { selector: 'button:contains("Finish"), button:contains("Confirm")', action: 'click', optional: true, wait: 1000 }
+      { selector: 'button[data-uia="cancel-button"], button[data-cl-view="cancelMembership"], button:contains("Cancel membership")', action: 'click', wait: 3000 },
+      // After clicking "Cancel membership", section expands - now click the "Finish cancellation" button
+      { selector: 'button[data-uia="action-finish-cancellation"], button[data-uia="finish-cancellation"], button:contains("Finish cancellation")', action: 'click', wait: 2000, forceClick: true },
+      // Handle any additional confirmation if needed
+      { selector: 'button[data-uia="confirm-cancel"], button:contains("Complete"), button:contains("Confirm")', action: 'click', optional: true, wait: 1000 }
     ]
   },
   'hulu.com': {
@@ -373,7 +375,25 @@ async function executeCancellation() {
       }
 
       if (step.action === 'click') {
-        element.click();
+        // Force click if specified (for hidden/collapsed elements)
+        if (step.forceClick) {
+          debugLog(`Force clicking (may be hidden): ${step.selector}`);
+          try {
+            // Try regular click first
+            element.click();
+          } catch (e) {
+            // If regular click fails, try programmatic click
+            debugLog('Regular click failed, trying programmatic click');
+            const clickEvent = new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              view: window
+            });
+            element.dispatchEvent(clickEvent);
+          }
+        } else {
+          element.click();
+        }
         debugLog(`✓ Clicked: ${step.selector}`);
       } else if (step.action === 'select' && step.value) {
         element.value = step.value;
