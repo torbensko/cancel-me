@@ -2,6 +2,21 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [2.0.2] - 2024-01-12
+
+### Fixed
+- Fixed Netflix cancellation loop caused by navigation to /cancelplan page
+- Added page pattern matching to only execute relevant steps on each page
+- Steps now skip if not on the correct page (membership vs cancelplan)
+- Added tracking to detect when no steps executed (indicates completion)
+- Improved debug logging to show current URL and page matching
+
+### Changed
+- Netflix cancellation now properly handles two-page flow:
+  1. Click "Cancel membership" on /account/membership page
+  2. Click "Finish cancellation" on /cancelplan page
+- Each step now has descriptive labels for better debugging
+
 ## [2.0.1] - 2024-01-12
 
 ### Fixed

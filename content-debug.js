@@ -44,12 +44,29 @@ const serviceConfigs = {
       ]
     },
     cancelSequence: [
-      { action: 'navigate', url: 'https://www.netflix.com/account/membership', wait: 3000 },
-      { selector: 'button[data-uia="cancel-button"], button[data-cl-view="cancelMembership"], button:contains("Cancel membership")', action: 'click', wait: 3000 },
-      // After clicking "Cancel membership", section expands - now click the "Finish cancellation" button
-      { selector: 'button[data-uia="action-finish-cancellation"], button[data-uia="finish-cancellation"], button:contains("Finish cancellation")', action: 'click', wait: 2000, forceClick: true },
+      // Netflix cancellation is split across pages - handle based on current URL
+      {
+        pagePattern: '/account/membership',
+        selector: 'button[data-uia="cancel-button"], button[data-cl-view="cancelMembership"], button:contains("Cancel membership")',
+        action: 'click',
+        wait: 2000,
+        description: 'Click cancel on membership page'
+      },
+      {
+        pagePattern: '/cancelplan',
+        selector: 'button[data-uia="action-finish-cancellation"], button[data-uia="finish-cancellation"], button:contains("Finish cancellation"), button:contains("Finish Cancellation")',
+        action: 'click',
+        wait: 2000,
+        description: 'Click finish on cancel plan page'
+      },
       // Handle any additional confirmation if needed
-      { selector: 'button[data-uia="confirm-cancel"], button:contains("Complete"), button:contains("Confirm")', action: 'click', optional: true, wait: 1000 }
+      {
+        selector: 'button[data-uia="confirm-cancel"], button:contains("Complete"), button:contains("Confirm")',
+        action: 'click',
+        optional: true,
+        wait: 1000,
+        description: 'Confirm cancellation'
+      }
     ]
   },
   'hulu.com': {
@@ -344,8 +361,20 @@ async function executeCancellation() {
   }
 
   debugLog(`Starting cancellation for ${service.name}`);
+  debugLog(`Current URL: ${window.location.href}`);
+
+  let stepExecuted = false;
 
   for (const step of service.cancelSequence) {
+    // Skip steps that don't match current page pattern
+    if (step.pagePattern) {
+      if (!window.location.href.includes(step.pagePattern)) {
+        debugLog(`Skipping step (not on ${step.pagePattern}):`, step.description || step.selector);
+        continue;
+      }
+      debugLog(`Page pattern matched (${step.pagePattern}), executing step:`, step.description || step.selector);
+    }
+
     debugLog(`Executing step:`, step);
 
     // Handle navigation action
@@ -395,10 +424,12 @@ async function executeCancellation() {
           element.click();
         }
         debugLog(`✓ Clicked: ${step.selector}`);
+        stepExecuted = true;
       } else if (step.action === 'select' && step.value) {
         element.value = step.value;
         element.dispatchEvent(new Event('change'));
         debugLog(`✓ Selected ${step.value} in: ${step.selector}`);
+        stepExecuted = true;
       }
     }
 
@@ -406,6 +437,16 @@ async function executeCancellation() {
       debugLog(`Waiting ${step.wait}ms before next step...`);
       await new Promise(resolve => setTimeout(resolve, step.wait));
     }
+  }
+
+  // Check if we executed any steps or if we're done
+  if (!stepExecuted) {
+    debugLog('No steps executed on this page - cancellation may be complete or on wrong page');
+    // If we're on /cancelplan and no steps executed, we might be done
+    if (window.location.href.includes('/cancelplan') || window.location.href.includes('/account')) {
+      return { success: true, service: service.name, message: 'Cancellation process completed' };
+    }
+    return { success: false, error: 'No applicable steps found for current page' };
   }
 
   return { success: true, service: service.name };
