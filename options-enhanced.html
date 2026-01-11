@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Subscription Manager - Settings</title>
+  <link rel="stylesheet" href="options-enhanced.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Subscription Manager Settings</h1>
+    </header>
+
+    <section class="settings-section">
+      <h2>Enabled Services</h2>
+      <p class="section-description">Toggle which services to monitor and manage</p>
+
+      <div id="serviceToggles" class="service-toggles">
+        <!-- Service toggles will be populated here -->
+      </div>
+
+      <div class="bulk-actions">
+        <button id="selectAllBtn" class="btn btn-secondary">Select All</button>
+        <button id="deselectAllBtn" class="btn btn-secondary">Deselect All</button>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2>Automation Settings</h2>
+
+      <div class="setting-item">
+        <label class="toggle-label">
+          <input type="checkbox" id="autoCheck" class="toggle-input">
+          <span class="toggle-switch"></span>
+          <span class="toggle-text">
+            <strong>Automatic Status Check</strong>
+            <small>Check all services daily</small>
+          </span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label class="toggle-label">
+          <input type="checkbox" id="confirmCancel" class="toggle-input" checked>
+          <span class="toggle-switch"></span>
+          <span class="toggle-text">
+            <strong>Confirm Before Cancel</strong>
+            <small>Show confirmation before cancelling subscriptions</small>
+          </span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label class="toggle-label">
+          <input type="checkbox" id="notifyChanges" class="toggle-input">
+          <span class="toggle-switch"></span>
+          <span class="toggle-text">
+            <strong>Status Change Notifications</strong>
+            <small>Notify when subscription status changes</small>
+          </span>
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label for="checkInterval" class="setting-label">
+          Check Interval (hours):
+          <select id="checkInterval" class="setting-select">
+            <option value="6">Every 6 hours</option>
+            <option value="12">Every 12 hours</option>
+            <option value="24" selected>Daily</option>
+            <option value="48">Every 2 days</option>
+            <option value="168">Weekly</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2>Subscription Status</h2>
+      <div id="statusSummary" class="status-summary">
+        <!-- Status summary will be populated here -->
+      </div>
+      <button id="checkNowBtn" class="btn btn-primary">Check All Now</button>
+    </section>
+
+    <section class="settings-section">
+      <h2>Data Management</h2>
+
+      <div class="data-actions">
+        <button id="exportBtn" class="btn btn-secondary">Export Settings</button>
+        <button id="importBtn" class="btn btn-secondary">Import Settings</button>
+        <button id="clearHistoryBtn" class="btn btn-warning">Clear History</button>
+        <button id="resetBtn" class="btn btn-danger">Reset All</button>
+      </div>
+    </section>
+
+    <div class="save-bar">
+      <button id="saveBtn" class="btn btn-primary btn-large">Save Settings</button>
+      <span id="saveStatus" class="save-status"></span>
+    </div>
+  </div>
+
+  <script src="options-enhanced.js"></script>
+</body>
+</html>

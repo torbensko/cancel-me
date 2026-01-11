@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Subscription Manager</title>
+  <link rel="stylesheet" href="popup-enhanced.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Subscription Manager</h1>
+      <button id="settingsBtn" class="settings-btn" title="Settings">⚙️</button>
+    </header>
+
+    <div class="status-bar">
+      <span id="lastCheck" class="last-check">Never checked</span>
+      <button id="checkAllBtn" class="btn-small btn-primary">Check All</button>
+    </div>
+
+    <div class="services-list" id="servicesList">
+      <!-- Services will be populated here -->
+    </div>
+
+    <div class="loading" id="loading" style="display: none;">
+      <div class="spinner"></div>
+      <p>Checking statuses...</p>
+    </div>
+
+    <div class="actions">
+      <button id="cancelAllActiveBtn" class="btn btn-danger" style="display: none;">
+        Cancel All Active Subscriptions
+      </button>
+    </div>
+
+    <div class="footer">
+      <a href="#" id="openSettings">Manage Services</a>
+      <span class="separator">•</span>
+      <a href="#" id="viewHistory">History</a>
+      <span class="separator">•</span>
+      <a href="#" id="toggleDebug">Debug</a>
+    </div>
+
+    <div id="debugPanel" class="debug-panel" style="display: none;">
+      <h3>Debug Information</h3>
+      <div id="debugContent" class="debug-content"></div>
+      <button id="refreshDebug" class="btn-small btn-primary">Refresh Debug Info</button>
+    </div>
+  </div>
+
+  <script src="popup-enhanced.js"></script>
+</body>
+</html>

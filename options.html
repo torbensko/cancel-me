@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Subscription Manager - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Subscription Manager Settings</h1>
+    </header>
+
+    <section class="settings-section">
+      <h2>General Settings</h2>
+
+      <div class="setting-item">
+        <label for="autoHighlight">
+          <input type="checkbox" id="autoHighlight" checked>
+          Automatically highlight cancel buttons on subscription pages
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label for="notifications">
+          <input type="checkbox" id="notifications" checked>
+          Enable monthly reminder notifications
+        </label>
+      </div>
+
+      <div class="setting-item">
+        <label for="reminderDay">
+          Reminder day of month:
+          <select id="reminderDay">
+            <option value="1">1st</option>
+            <option value="15">15th</option>
+            <option value="28">28th</option>
+            <option value="30">30th</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="settings-section">
+      <h2>Tracked Subscriptions</h2>
+      <div id="subscriptionList" class="subscription-list">
+        <!-- Will be populated by JavaScript -->
+      </div>
+      <button id="addSubscription" class="btn btn-secondary">Add Subscription</button>
+    </section>
+
+    <section class="settings-section">
+      <h2>Cancellation History</h2>
+      <div id="historyList" class="history-list">
+        <!-- Will be populated by JavaScript -->
+      </div>
+      <button id="clearHistory" class="btn btn-danger">Clear History</button>
+    </section>
+
+    <section class="settings-section">
+      <h2>Data Management</h2>
+      <button id="exportData" class="btn btn-secondary">Export Data</button>
+      <button id="importData" class="btn btn-secondary">Import Data</button>
+      <button id="resetAll" class="btn btn-danger">Reset All Settings</button>
+    </section>
+
+    <div class="save-section">
+      <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+      <span id="saveStatus" class="save-status"></span>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
