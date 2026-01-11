@@ -1,0 +1,46 @@
+# Changelog
+
+All notable changes to the Subscription Manager extension will be documented in this file.
+
+## [2.0.0] - 2024-01-12
+
+### Added
+- One-click cancellation functionality for all supported services
+- Debug panel in popup for troubleshooting issues
+- User-visible error notifications via Chrome notifications
+- Version-based service worker naming (background-v2.js)
+- Direct navigation to Netflix membership page for cancellation
+- Retry logic for failed cancellation attempts
+- Proper async message handling to prevent runtime errors
+
+### Changed
+- Netflix cancellation now navigates directly to membership page
+- Improved error handling with specific error messages
+- Enhanced status checking with better timeout management
+- Updated all file names to use versioned naming convention
+
+### Fixed
+- "Unchecked runtime.lastError" async message handling errors
+- Tab ID errors when tabs close unexpectedly
+- Netflix cancel button detection with updated selectors
+- Multi-step navigation flow for services requiring page changes
+
+### Services Supported
+- Netflix (with direct membership page navigation)
+- Hulu
+- Disney+
+- HBO Max / Max
+- Peacock
+- Paramount+
+- Amazon Prime Video
+- Spotify
+- YouTube Premium
+
+## [1.0.0] - 2024-01-12 (Initial Release)
+
+### Added
+- Basic extension structure with popup interface
+- Service status checking functionality
+- Manual navigation to cancellation pages
+- Settings page for service management
+- Subscription tracking and history
