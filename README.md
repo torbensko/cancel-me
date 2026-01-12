@@ -1,6 +1,6 @@
 # Subscription Manager Browser Extension
 
-> 🚀 **Early Access** - Automatically cancel your streaming subscriptions with one click
+> ⚠️ **Early Access** - This is an early, unpolished version. Expect rough edges and occasional issues.
 
 **The smart way to manage streaming services:** Cancel everything regularly, then resume only what you actually watch. You keep access until your billing period ends, and services make it trivial to resubscribe (but deliberately difficult to cancel). This extension flips that dynamic in your favor.
 
