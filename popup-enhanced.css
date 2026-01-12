@@ -183,6 +183,15 @@ header h1 {
   transition: all 0.3s;
 }
 
+.btn-account {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.btn-account:hover {
+  background: #bbdefb;
+}
+
 .btn-check {
   background: #f0f0f0;
   color: #333;

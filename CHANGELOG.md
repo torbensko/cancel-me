@@ -2,6 +2,17 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.1.0] - 2024-01-12
+
+### Added
+- New "Account" button (📊) for each service in the popup
+- Account button opens the service's account page using active.checkUrl
+- Styled account button with blue theme to differentiate from other actions
+
+### Changed
+- Reordered buttons: Account, Check Status, then Cancel (when active)
+- Each service now has quick access to their account management page
+
 ## [3.0.4] - 2024-01-12
 
 ### Fixed

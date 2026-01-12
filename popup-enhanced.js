@@ -76,6 +76,9 @@ function createServiceElement(id, service, status) {
       </div>
     </div>
     <div class="service-actions">
+      <button class="btn-action btn-account" data-service="${id}" data-url="${service.active?.checkUrl || ''}" title="View Account">
+        📊
+      </button>
       <button class="btn-action btn-check" data-service="${id}" title="Check Status">
         🔄
       </button>
@@ -88,6 +91,16 @@ function createServiceElement(id, service, status) {
   `;
 
   // Add event listeners
+  const accountBtn = div.querySelector('.btn-account');
+  if (accountBtn) {
+    accountBtn.addEventListener('click', () => {
+      const url = accountBtn.dataset.url;
+      if (url) {
+        chrome.tabs.create({ url: url, active: true });
+      }
+    });
+  }
+
   const checkBtn = div.querySelector('.btn-check');
   if (checkBtn) {
     checkBtn.addEventListener('click', () => checkServiceStatus(id));
