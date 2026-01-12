@@ -100,12 +100,10 @@ function createServiceElement(id, service, status) {
       <button class="btn-action btn-check" data-service="${id}" title="Check Status">
         ${refreshIcon}
       </button>
-      ${status.status === 'active' ? `
-        <button class="btn-action btn-cancel" data-service="${id}" title="Cancel Subscription">
-          ${cancelIcon}
-          <span>Cancel</span>
-        </button>
-      ` : ''}
+      <button class="btn-action btn-cancel ${status.status === 'active' ? 'btn-cancel-active' : 'btn-cancel-inactive'}" data-service="${id}" title="Cancel Subscription">
+        ${cancelIcon}
+        <span>Cancel</span>
+      </button>
     </div>
   `;
 

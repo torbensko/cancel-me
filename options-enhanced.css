@@ -98,6 +98,7 @@ header h1 {
 .icon-spotify { background: #1DB954; }
 .icon-youtube { background: #FF0000; }
 .icon-stan { background: #0098F7; }
+.icon-appletv { background: #000000; }
 
 .service-label {
   flex: 1;

@@ -2,6 +2,21 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.5.1] - 2024-01-12
+
+### Changed
+- Cancel button now shows for all services, not just active ones
+- Active services have highlighted red cancel button
+- Inactive/unknown services have grayed-out cancel button
+
+### Fixed
+- Added Apple TV+ color (black) to CSS styles
+- Apple TV+ now displays properly in both popup and options
+
+### Improved
+- Visual distinction between active and inactive subscriptions
+- Better UX with all actions always visible
+
 ## [3.5.0] - 2024-01-12
 
 ### Changed
