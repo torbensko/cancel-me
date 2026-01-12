@@ -320,9 +320,13 @@ async function executeCancellation() {
       element.click();
       debugLog('Clicked cancellation element');
 
-      // Check if we navigated
+      // Check if we navigated or if a modal appeared (Apple TV+ uses modals)
       const urlBefore = window.location.href;
-      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // For Apple TV+, wait longer for modals to appear
+      const waitTime = service && service.key === 'appletv' ? 3000 : 2000;
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+
       const urlAfter = window.location.href;
 
       if (urlBefore !== urlAfter) {

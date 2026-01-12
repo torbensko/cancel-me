@@ -140,6 +140,9 @@ const servicesConfig = {
         '[data-test="manage-subscription-link"]',
         '[data-test="cta-cancel-plan"]',
         'button[data-test="cta-cancel-plan"]',
+        '[data-test="primary-button"]',  // Popup confirmation button
+        'button[data-test="primary-button"]',  // Popup confirmation button with button tag
+        '.cc-modal-button-bar__button:contains("Cancel Subscription")',  // Modal button by class
         'button:contains("Cancel Subscription")',
         'button:contains("Cancel Free Trial")'
       ]
