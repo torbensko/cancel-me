@@ -67,8 +67,8 @@ const servicesConfig = {
       startUrl: 'https://www.disneyplus.com/commerce/account',
       selectors: [
         '[data-testid^="account-item-content-D2C"]',
-        'button:contains("Cancel Subscription")',
         'button:contains("Cancel")',
+        'button:contains("CANCEL")',
         'a:contains("Cancel subscription")'
       ]
     }
