@@ -13,7 +13,6 @@ const servicesConfig = {
       checkUrl: 'https://www.netflix.com/account/membership',
       // If any of these exist, subscription is active
       indicators: [
-        '[data-uia="cancel-button"]',
         'button:contains("Cancel membership")'
       ]
     },
@@ -29,26 +28,6 @@ const servicesConfig = {
     }
   },
 
-  hulu: {
-    name: 'Hulu',
-    domain: 'hulu.com',
-    color: '#1CE783',
-
-    active: {
-      checkUrl: 'https://secure.hulu.com/account',
-      indicators: [
-        'a[href*="/cancel"]',
-        'button:contains("Cancel")',
-        '.subscription-info'
-      ]
-    },
-
-    cancellation: {
-      startUrl: 'https://secure.hulu.com/account',
-      selectors: [] // Will use default selectors
-    }
-  },
-
   disney: {
     name: 'Disney+',
     domain: 'disneyplus.com',
@@ -59,7 +38,7 @@ const servicesConfig = {
       indicators: [
         '[data-testid^="account-item-content-D2C"]'
       ],
-      presentWhenInactive: ['button:contains("Restart Subscription")']
+      presentWhenInactive: 'button:contains("Restart Subscription")'
     },
 
     cancellation: {
@@ -91,25 +70,6 @@ const servicesConfig = {
     }
   },
 
-  peacock: {
-    name: 'Peacock',
-    domain: 'peacocktv.com',
-    color: '#000000',
-
-    active: {
-      checkUrl: 'https://www.peacocktv.com/account',
-      indicators: [
-        'button:contains("Cancel")',
-        'a[href*="/cancel"]'
-      ]
-    },
-
-    cancellation: {
-      startUrl: 'https://www.peacocktv.com/account/plans',
-      selectors: []
-    }
-  },
-
   paramount: {
     name: 'Paramount+',
     domain: 'paramountplus.com',
@@ -118,8 +78,7 @@ const servicesConfig = {
     active: {
       checkUrl: 'https://www.paramountplus.com/account',
       indicators: [
-        'button:contains("Cancel")',
-        '.cancel-link'
+        'button:contains("Cancel")'
       ]
     },
 
@@ -147,44 +106,6 @@ const servicesConfig = {
       selectors: [
         'input[aria-label*="End membership"]'
       ]
-    }
-  },
-
-  spotify: {
-    name: 'Spotify',
-    domain: 'spotify.com',
-    color: '#1DB954',
-
-    active: {
-      checkUrl: 'https://www.spotify.com/account/subscription/',
-      indicators: [
-        'button:contains("CANCEL PREMIUM")',
-        'a:contains("Cancel")'
-      ]
-    },
-
-    cancellation: {
-      startUrl: 'https://www.spotify.com/account/subscription/',
-      selectors: []
-    }
-  },
-
-  youtube: {
-    name: 'YouTube Premium',
-    domain: 'youtube.com',
-    color: '#FF0000',
-
-    active: {
-      checkUrl: 'https://www.youtube.com/paid_memberships',
-      indicators: [
-        'button:contains("Cancel")',
-        'a:contains("Cancel membership")'
-      ]
-    },
-
-    cancellation: {
-      startUrl: 'https://www.youtube.com/paid_memberships',
-      selectors: []
     }
   },
 
