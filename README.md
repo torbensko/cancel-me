@@ -1,17 +1,17 @@
 # Subscription Manager Browser Extension
 
-> 🚀 **Early Access** - Help manage your streaming subscriptions with one-click access to cancellation pages
+> 🚀 **Early Access** - Automatically cancel your streaming subscriptions with one click
 
-A browser extension that simplifies subscription management by providing quick navigation to cancellation pages and highlighting cancel options across major streaming platforms.
+A browser extension that automates the entire subscription cancellation process. Simply click the cancel button, and the extension will automatically navigate through all confirmation screens and complete the cancellation for you.
 
 ![Subscription Manager Main Interface](screenshot-01.jpeg)
 
 ## ✨ Features
 
-- **One-Click Access** - Navigate directly to cancellation pages for all your streaming services
-- **Smart Detection** - Automatically detects when you're on supported subscription pages
-- **Visual Guidance** - Highlights cancellation buttons with clear visual indicators
-- **Bulk Management** - Check and manage multiple subscriptions at once
+- **Automatic Cancellation** - Completes the entire cancellation process automatically after you initiate it
+- **One-Click Cancel** - Just click the cancel button and the extension handles all confirmation dialogs
+- **Smart Navigation** - Automatically clicks through "Are you sure?" prompts and retention offers
+- **Bulk Management** - Check and cancel multiple subscriptions at once
 - **Service Toggle** - Enable/disable monitoring for specific services
 - **History Tracking** - Keep track of checked and cancelled subscriptions
 - **Debug Mode** - Built-in debugging tools for troubleshooting
@@ -54,10 +54,22 @@ Currently supports popular streaming and subscription services:
 
 ### Basic Usage
 
-1. **Login First** - Ensure you're logged into the streaming services you want to manage
+1. **Login First** - Ensure you're logged into the streaming services you want to cancel
 2. **Open Extension** - Click the extension icon in your toolbar
-3. **Check Services** - Click "Check All" or check individual services
-4. **Cancel** - Click the cancel button to navigate to the service's cancellation page
+3. **Check Services** - Click "Check All" to see your active subscriptions
+4. **Cancel** - Click the cancel button and the extension will automatically complete the entire cancellation process
+
+## 🎯 How It Works
+
+When you click the **Cancel** button for a service:
+
+1. **Automatic Navigation** - The extension opens the service's cancellation page
+2. **Smart Clicking** - Automatically clicks through all confirmation dialogs ("Are you sure?", "We'll miss you", etc.)
+3. **Bypass Retention Offers** - Skips past discount offers and "please stay" screens
+4. **Complete Cancellation** - Finalizes the cancellation without any further input needed
+5. **Confirmation** - Shows you the cancellation confirmation page
+
+**You stay in control:** The process only starts when YOU click the cancel button. No surprises, no automatic actions without your consent.
 
 ## ⚙️ Configuration
 
@@ -90,14 +102,14 @@ cancel-me/
 - **Local Storage Only** - All data stored locally in your browser
 - **No External Servers** - No data sent to third parties
 - **Domain-Specific** - Only activates on configured streaming service domains
-- **No Auto-Cancel** - You maintain full control over cancellation decisions
+- **User-Initiated** - Cancellations only occur when YOU click the cancel button
 
 ## ⚠️ Important Notes
 
-- **Manual Process** - The extension navigates to cancellation pages but does NOT automatically cancel subscriptions
+- **User-Initiated Automation** - The extension automatically completes cancellations ONLY when you click the cancel button
 - **Login Required** - You must be logged into each service for the extension to work
 - **Service Changes** - Streaming services may update their interfaces, requiring extension updates
-- **2FA/Payment Verification** - Some services may require additional authentication
+- **2FA/Payment Verification** - Some services may require additional authentication before cancellation
 
 ## 🐛 Known Limitations
 
@@ -151,7 +163,8 @@ MIT License - See [LICENSE](LICENSE) for details
 
 This tool is for personal subscription management only. Users are responsible for their own subscription decisions. The extension:
 
-- Does NOT automatically cancel subscriptions
+- ONLY cancels subscriptions when YOU click the cancel button
+- Automates the cancellation process but requires YOUR explicit action to start
 - Does NOT make unauthorized changes to accounts
 - Does NOT store or transmit personal information
 - Is NOT affiliated with any streaming service
