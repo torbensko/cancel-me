@@ -2,6 +2,14 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.0.3] - 2024-01-12
+
+### Fixed
+- Popup now only shows services that are enabled in settings
+- Background script respects stored serviceSettings for enabled states
+- Check all statuses only processes enabled services
+- Changed default enabled state to false (only show explicitly enabled services)
+
 ## [3.0.2] - 2024-01-12
 
 ### Fixed

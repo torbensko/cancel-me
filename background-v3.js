@@ -204,12 +204,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   (async () => {
     try {
       if (request.action === 'getServices') {
-        // Add enabled field to all services (default to true)
+        // Get stored service settings to determine which are enabled
+        const result = await chrome.storage.local.get(['serviceSettings']);
+        const serviceSettings = result.serviceSettings || {};
+
+        // Merge service config with enabled states from storage
         const servicesWithEnabled = {};
         for (const [key, service] of Object.entries(servicesConfig)) {
           servicesWithEnabled[key] = {
             ...service,
-            enabled: service.enabled !== undefined ? service.enabled : true
+            enabled: serviceSettings[key]?.enabled !== undefined ? serviceSettings[key].enabled : false
           };
         }
         sendResponse({ services: servicesWithEnabled });
@@ -223,9 +227,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const response = await checkServiceStatus(request.serviceId);
         sendResponse(response);
       } else if (request.action === 'checkAllStatuses') {
+        // Only check enabled services
+        const settingsResult = await chrome.storage.local.get(['serviceSettings']);
+        const serviceSettings = settingsResult.serviceSettings || {};
+
         const results = {};
         for (const serviceKey of Object.keys(servicesConfig)) {
-          results[serviceKey] = await checkServiceStatus(serviceKey);
+          // Only check if service is enabled
+          if (serviceSettings[serviceKey]?.enabled) {
+            results[serviceKey] = await checkServiceStatus(serviceKey);
+          }
         }
         await chrome.storage.local.set({
           subscriptionStatuses: results,
