@@ -131,23 +131,25 @@ async function executeCancellation() {
   debugLog(`Starting cancellation for ${service.name}`);
   debugLog(`Current URL: ${window.location.href}`);
 
-  // Check if we need to select a cancellation reason first
-  if (service.cancellation?.reasonSelector || window.location.href.includes('/cancel')) {
-    debugLog('Checking for cancellation reason form...');
+  // Look for cancellation reason form elements on the page (element-based, not URL-based)
+  debugLog('Checking for cancellation reason forms...');
 
-    // Build list of reason selectors to try
-    const reasonSelectors = [
-      ...(service.cancellation?.reasonSelector ? [service.cancellation.reasonSelector] : []),
-      ...(window.defaultReasonSelectors || [])
-    ];
+  // Build list of reason selectors to try
+  const reasonSelectors = [
+    ...(service.cancellation?.reasonSelector ? [service.cancellation.reasonSelector] : []),
+    ...(window.defaultReasonSelectors || [])
+  ];
 
-    // Try to find and select a reason
-    let reasonSelected = false;
-    for (const selector of reasonSelectors) {
-      try {
-        const reasonElement = await findElement([selector], 1000);
-        if (reasonElement && (reasonElement.type === 'radio' || reasonElement.type === 'checkbox')) {
-          debugLog(`Found reason selector: ${selector}`);
+  // Try to find and select a reason if form elements exist
+  let reasonSelected = false;
+  for (const selector of reasonSelectors) {
+    try {
+      const reasonElement = await findElement([selector], 500); // Quick check for existence
+      if (reasonElement && (reasonElement.type === 'radio' || reasonElement.type === 'checkbox')) {
+        debugLog(`Found reason form with selector: ${selector}`);
+
+        // Only select if not already selected
+        if (!reasonElement.checked) {
           reasonElement.checked = true;
           reasonElement.click(); // Trigger any change events
           debugLog('Selected cancellation reason');
@@ -157,16 +159,20 @@ async function executeCancellation() {
           const delay = service.cancellation?.reasonDelay || 1000;
           debugLog(`Waiting ${delay}ms for form to update...`);
           await new Promise(resolve => setTimeout(resolve, delay));
-          break;
+        } else {
+          debugLog('Reason already selected');
         }
-      } catch (e) {
-        // Continue trying other selectors
+        break;
       }
+    } catch (e) {
+      // Element doesn't exist, continue checking other selectors
     }
+  }
 
-    if (reasonSelected) {
-      debugLog('Reason selected, proceeding to find submit button');
-    }
+  if (reasonSelected) {
+    debugLog('Reason selected, proceeding to find action buttons');
+  } else {
+    debugLog('No reason form found or already selected, looking for action buttons');
   }
 
   // Build list of selectors to try

@@ -2,6 +2,20 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.2.4] - 2024-01-12
+
+### Changed
+- Removed URL-based detection for cancellation forms
+- Now uses pure element-based detection for reason forms
+- Checks if form elements exist rather than checking URLs
+- More robust and service-agnostic approach
+
+### Improved
+- Only attempts to select reasons if elements are found
+- Skips already-selected radio buttons/checkboxes
+- Faster initial check (500ms) to detect form presence
+- Better logging to show what's happening at each step
+
 ## [3.2.3] - 2024-01-12
 
 ### Fixed
