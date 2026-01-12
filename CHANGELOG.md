@@ -2,6 +2,13 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.0.2] - 2024-01-12
+
+### Fixed
+- Fixed services not appearing in popup due to missing 'enabled' field
+- Background script now adds 'enabled: true' to all services for compatibility
+- Services list now properly displays with the simplified configuration
+
 ## [3.0.1] - 2024-01-12
 
 ### Fixed

@@ -204,7 +204,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   (async () => {
     try {
       if (request.action === 'getServices') {
-        sendResponse({ services: servicesConfig });
+        // Add enabled field to all services (default to true)
+        const servicesWithEnabled = {};
+        for (const [key, service] of Object.entries(servicesConfig)) {
+          servicesWithEnabled[key] = {
+            ...service,
+            enabled: service.enabled !== undefined ? service.enabled : true
+          };
+        }
+        sendResponse({ services: servicesWithEnabled });
       } else if (request.action === 'getStatuses') {
         const result = await chrome.storage.local.get(['subscriptionStatuses', 'lastStatusCheck']);
         sendResponse({
