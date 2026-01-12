@@ -11,10 +11,8 @@ const servicesConfig = {
     // Check if subscription is active
     active: {
       checkUrl: 'https://www.netflix.com/account/membership',
-      // If any of these exist, subscription is active
-      indicators: [
-        'button:contains("Cancel membership")'
-      ]
+      // If this element exists, subscription is active
+      presentWhenActive: 'button:contains("Cancel membership")'
     },
 
     // Cancellation flow
@@ -35,9 +33,7 @@ const servicesConfig = {
 
     active: {
       checkUrl: 'https://www.disneyplus.com/commerce/account',
-      indicators: [
-        '[data-testid^="account-item-content-D2C"]'
-      ],
+      presentWhenActive: '[data-testid^="account-item-content-D2C"]',
       presentWhenInactive: 'button:contains("Restart Subscription")'
     },
 
@@ -59,9 +55,7 @@ const servicesConfig = {
 
     active: {
       checkUrl: 'https://auth.hbomax.com/subscription',
-      indicators: [
-        'a:contains("Cancel Your Subscription")'
-      ]
+      presentWhenActive: 'a:contains("Cancel Your Subscription")'
     },
 
     cancellation: {
@@ -77,9 +71,7 @@ const servicesConfig = {
 
     active: {
       checkUrl: 'https://www.paramountplus.com/account',
-      indicators: [
-        'button:contains("Cancel")'
-      ]
+      presentWhenActive: 'button:contains("Cancel")'
     },
 
     cancellation: {
@@ -95,10 +87,7 @@ const servicesConfig = {
 
     active: {
       checkUrl: 'https://www.amazon.com/gp/primecentral',
-      indicators: [
-        'input[aria-label*="End membership"]',
-        'a:contains("End Membership")'
-      ]
+      presentWhenActive: 'input[aria-label*="End membership"]'
     },
 
     cancellation: {
@@ -116,9 +105,7 @@ const servicesConfig = {
 
     active: {
       checkUrl: 'https://my.stan.com.au/account',
-      indicators: [
-        'button:contains("Cancel my subscription")'
-      ]
+      presentWhenActive: 'button:contains("Cancel my subscription")'
     },
 
     cancellation: {

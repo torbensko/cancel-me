@@ -2,6 +2,23 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.4.0] - 2024-01-12
+
+### Changed
+- **BREAKING**: Changed `indicators` array to `presentWhenActive` single string
+- All services now use a single selector string instead of array
+- Simplified configuration structure for easier maintenance
+
+### Added
+- `presentWhenInactive` support for detecting cancelled/paused subscriptions
+- Disney+ now has `presentWhenInactive: 'button:contains("Restart Subscription")'`
+- Inactive detection takes priority over active detection
+
+### Improved
+- Status checking logic now checks inactive indicators first
+- More accurate status detection (active/inactive/unknown)
+- Cleaner service configuration without unnecessary arrays
+
 ## [3.3.0] - 2024-01-12
 
 ### Added

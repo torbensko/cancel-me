@@ -99,9 +99,22 @@ async function checkSubscriptionStatus() {
   // Wait for page to stabilize
   await new Promise(resolve => setTimeout(resolve, 2000));
 
+  // Check for inactive indicators first (takes priority)
+  if (service.active && service.active.presentWhenInactive) {
+    const inactiveElement = await findElement([service.active.presentWhenInactive], 3000);
+    if (inactiveElement) {
+      debugLog('Found inactive subscription indicator');
+      return {
+        service: service.name,
+        status: 'inactive',
+        checked: new Date().toISOString()
+      };
+    }
+  }
+
   // Look for active subscription indicators
-  if (service.active && service.active.indicators) {
-    const activeElement = await findElement(service.active.indicators, 3000);
+  if (service.active && service.active.presentWhenActive) {
+    const activeElement = await findElement([service.active.presentWhenActive], 3000);
     if (activeElement) {
       debugLog('Found active subscription indicator');
       return {
@@ -112,8 +125,8 @@ async function checkSubscriptionStatus() {
     }
   }
 
-  // If no active indicators found, might be inactive or unknown
-  debugLog('No active subscription indicators found');
+  // If no indicators found, might be inactive or unknown
+  debugLog('No subscription indicators found');
   return {
     service: service.name,
     status: 'unknown',
