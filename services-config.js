@@ -135,16 +135,15 @@ const servicesConfig = {
     },
 
     cancellation: {
+      // Note: Apple uses cross-origin iframes for the final confirmation modal
+      // which cannot be automated due to browser security. The extension will
+      // navigate to the cancellation page but final confirmation must be done manually.
       startUrl: 'https://tv.apple.com/au/account/settings',
       selectors: [
         '[data-test="manage-subscription-link"]',
         '[data-test="cta-cancel-plan"]',
-        'button[data-test="cta-cancel-plan"]',
-        '[data-test="primary-button"]',  // Popup confirmation button
-        'button[data-test="primary-button"]',  // Popup confirmation button with button tag
-        '.cc-modal-button-bar__button:contains("Cancel Subscription")',  // Modal button by class
-        'button:contains("Cancel Subscription")',
-        'button:contains("Cancel Free Trial")'
+        'button[data-test="cta-cancel-plan"]'
+        // Modal buttons removed - they're in a cross-origin iframe
       ]
     }
   }
