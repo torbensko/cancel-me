@@ -20,18 +20,15 @@ A browser extension that simplifies subscription management by providing quick n
 
 Currently supports popular streaming and subscription services:
 
-| Service         | Status       | Notes                                        |
-| --------------- | ------------ | -------------------------------------------- |
-| Netflix         | ✅ Supported | Direct navigation to membership cancellation |
-| Disney+         | ✅ Supported | Handles modal confirmations                  |
-| HBO Max         | ✅ Supported | Works with new Max branding                  |
-| Paramount+      | ✅ Supported | Navigate to account settings                 |
-| Apple TV+       | ✅ Supported | Limited iframe support                       |
-| Stan            | ✅ Supported | Australian streaming service                 |
-| Prime Video     | 🔧 Beta      | Amazon account integration                   |
-| Hulu            | ✅ Supported | Account management page                      |
-| Spotify         | ✅ Supported | Premium cancellation                         |
-| YouTube Premium | ✅ Supported | Membership management                        |
+| Service     | Status       | Notes                                                            |
+| ----------- | ------------ | ---------------------------------------------------------------- |
+| Netflix     | ✅ Supported | Direct navigation to membership cancellation                    |
+| Disney+     | ✅ Supported | Handles modal confirmations                                     |
+| HBO Max     | ✅ Supported | Works with new Max branding                                     |
+| Paramount+  | ✅ Supported | Navigate to account settings                                    |
+| Prime Video | ✅ Supported | Amazon account integration                                      |
+| Stan        | ✅ Supported | Australian streaming service - skips reason selection           |
+| Apple TV+   | ⚠️ Limited   | Cross-origin iframe limitations - manual confirmation required |
 
 ## 🚀 Quick Start
 
