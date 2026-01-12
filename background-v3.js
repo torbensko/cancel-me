@@ -209,11 +209,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const serviceSettings = result.serviceSettings || {};
 
         // Merge service config with enabled states from storage
+        // Default to enabled:true for new services not in storage yet
         const servicesWithEnabled = {};
         for (const [key, service] of Object.entries(servicesConfig)) {
           servicesWithEnabled[key] = {
             ...service,
-            enabled: serviceSettings[key]?.enabled !== undefined ? serviceSettings[key].enabled : false
+            enabled: serviceSettings[key]?.enabled !== undefined ? serviceSettings[key].enabled : true
           };
         }
         sendResponse({ services: servicesWithEnabled });

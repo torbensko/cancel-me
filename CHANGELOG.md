@@ -2,6 +2,17 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.2.2] - 2024-01-12
+
+### Fixed
+- Popup now shows new services (like Stan) automatically
+- Changed default enabled state to true for new services
+- Services from services-config.js now appear immediately without needing storage
+
+### Changed
+- New services default to enabled unless user explicitly disables them
+- Popup dynamically includes all services from services-config.js
+
 ## [3.2.1] - 2024-01-12
 
 ### Fixed
