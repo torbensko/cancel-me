@@ -8,13 +8,9 @@ A browser extension that automates the entire subscription cancellation process.
 
 ## ✨ Features
 
-- **Automatic Cancellation** - Completes the entire cancellation process automatically after you initiate it
-- **One-Click Cancel** - Just click the cancel button and the extension handles all confirmation dialogs
-- **Smart Navigation** - Automatically clicks through "Are you sure?" prompts and retention offers
-- **Bulk Management** - Check and cancel multiple subscriptions at once
-- **Service Toggle** - Enable/disable monitoring for specific services
-- **History Tracking** - Keep track of checked and cancelled subscriptions
-- **Debug Mode** - Built-in debugging tools for troubleshooting
+- **Service Selection** - Toggle which streaming services you want to monitor
+- **Status Check** - Instantly check if your subscriptions are still active
+- **Automatic Cancellation** - Click cancel and the extension completes the entire process for you
 
 ## 📺 Supported Services
 
