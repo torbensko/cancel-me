@@ -204,10 +204,13 @@ const servicesConfig = {
       selectors: [
         'button:contains("Cancel my subscription")',
         'button[type="submit"]:contains("Next")',
+        'button.primary:contains("Confirm cancellation")',
         'button:contains("Confirm cancellation")'
       ],
-      // New: Specify which radio/checkbox to select before proceeding
-      reasonSelector: 'input[type="radio"][value="not-needed"], input#not-needed'
+      // Specify which radio/checkbox to select before proceeding
+      reasonSelector: 'input[type="radio"][value="not-needed"], input#not-needed',
+      // Add delay after selecting reason (in milliseconds)
+      reasonDelay: 1500
     }
   }
 };
@@ -249,6 +252,7 @@ const defaultCancelSelectors = [
   // Confirm/Continue
   'button:contains("Confirm")',
   'button:contains("Continue")',
+  'button:contains("Next")',
   'button:contains("Yes")',
   'button:contains("Proceed")',
 

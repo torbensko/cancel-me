@@ -142,6 +142,7 @@ async function executeCancellation() {
     ];
 
     // Try to find and select a reason
+    let reasonSelected = false;
     for (const selector of reasonSelectors) {
       try {
         const reasonElement = await findElement([selector], 1000);
@@ -150,14 +151,21 @@ async function executeCancellation() {
           reasonElement.checked = true;
           reasonElement.click(); // Trigger any change events
           debugLog('Selected cancellation reason');
+          reasonSelected = true;
 
-          // Small delay to let form update
-          await new Promise(resolve => setTimeout(resolve, 500));
+          // Use service-specific delay or default to 1000ms
+          const delay = service.cancellation?.reasonDelay || 1000;
+          debugLog(`Waiting ${delay}ms for form to update...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
           break;
         }
       } catch (e) {
         // Continue trying other selectors
       }
+    }
+
+    if (reasonSelected) {
+      debugLog('Reason selected, proceeding to find submit button');
     }
   }
 

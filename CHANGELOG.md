@@ -2,6 +2,22 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.2.3] - 2024-01-12
+
+### Fixed
+- Stan cancellation flow now properly handles multi-page process
+- Added configurable delay after selecting cancellation reason
+- Added "Confirm cancellation" button support for Stan's final step
+
+### Added
+- Service-specific `reasonDelay` configuration (defaults to 1000ms)
+- "Next" button to default selectors for multi-step forms
+- Better debug logging for reason selection process
+
+### Changed
+- Stan config now includes all necessary selectors for complete flow
+- Improved timing after radio button selection to prevent getting stuck
+
 ## [3.2.2] - 2024-01-12
 
 ### Fixed
