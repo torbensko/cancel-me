@@ -14,8 +14,7 @@ const servicesConfig = {
       // If any of these exist, subscription is active
       indicators: [
         '[data-uia="cancel-button"]',
-        'button:contains("Cancel membership")',
-        'a:contains("Manage membership")'
+        'button:contains("Cancel membership")'
       ]
     },
 
@@ -225,9 +224,16 @@ const defaultCancelSelectors = [
 ];
 
 // Export for use in other scripts
+// Service workers don't have window object, so we use different export strategies
 if (typeof module !== 'undefined' && module.exports) {
+  // Node.js style export
   module.exports = { servicesConfig, defaultCancelSelectors };
-} else {
+} else if (typeof self !== 'undefined') {
+  // Service worker context
+  self.servicesConfig = servicesConfig;
+  self.defaultCancelSelectors = defaultCancelSelectors;
+} else if (typeof window !== 'undefined') {
+  // Browser window context (content scripts)
   window.servicesConfig = servicesConfig;
   window.defaultCancelSelectors = defaultCancelSelectors;
 }

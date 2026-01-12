@@ -2,6 +2,14 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.0.1] - 2024-01-12
+
+### Fixed
+- Fixed "window is not defined" error in service worker context
+- Updated exports in services-config.js to use `self` for service workers
+- Improved config loading in content script with fallback handling
+- Service worker now properly loads configuration without window reference
+
 ## [3.0.0] - 2024-01-12
 
 ### Changed (BREAKING)

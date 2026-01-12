@@ -9,14 +9,19 @@ function debugLog(message, data = null) {
   }
 }
 
-// Load services configuration (will be injected or imported)
-let servicesConfig = {};
-let defaultCancelSelectors = [];
+// Load services configuration
+// The config is loaded via the manifest as a separate script
+let servicesConfig = window.servicesConfig || {};
+let defaultCancelSelectors = window.defaultCancelSelectors || [];
 
-// Try to load config - in a real extension this would be injected
-if (typeof window.servicesConfig !== 'undefined') {
-  servicesConfig = window.servicesConfig;
-  defaultCancelSelectors = window.defaultCancelSelectors;
+// Wait a moment for config to load if not immediately available
+if (Object.keys(servicesConfig).length === 0) {
+  debugLog('Waiting for config to load...');
+  setTimeout(() => {
+    servicesConfig = window.servicesConfig || {};
+    defaultCancelSelectors = window.defaultCancelSelectors || [];
+    debugLog('Config loaded:', Object.keys(servicesConfig).length + ' services');
+  }, 100);
 }
 
 // Detect which service we're on
