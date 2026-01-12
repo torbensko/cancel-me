@@ -2,6 +2,23 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.2.0] - 2024-01-12
+
+### Added
+- Support for Stan (Australian streaming service)
+  - Account page: https://my.stan.com.au/account
+  - Cancel page: https://my.stan.com.au/cancel
+  - Automatic reason selection for cancellation forms
+- New cancellation reason handling system
+  - Services can specify `reasonSelector` in their config
+  - Default reason selectors for common patterns (not-needed, expensive, etc.)
+  - Automatically selects first available reason if specified
+
+### Changed
+- Content script now checks for and selects cancellation reasons before clicking submit
+- Added defaultReasonSelectors array for common reason form patterns
+- Enhanced cancellation flow to handle multi-step forms with reason selection
+
 ## [3.1.0] - 2024-01-12
 
 ### Added

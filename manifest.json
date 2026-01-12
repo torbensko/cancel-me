@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Subscription Manager",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Helps manage streaming service subscriptions by navigating to cancellation pages",
 
   "permissions": [
@@ -49,7 +49,8 @@
         "https://*.primevideo.com/*",
         "https://*.apple.com/*",
         "https://*.spotify.com/*",
-        "https://*.youtube.com/*"
+        "https://*.youtube.com/*",
+        "https://*.stan.com.au/*"
       ],
       "js": ["services-config.js", "content-simplified.js"],
       "run_at": "document_idle"

@@ -9,7 +9,8 @@ const defaultServices = {
   paramount: { name: 'Paramount+', enabled: true },
   amazon: { name: 'Prime Video', enabled: true },
   spotify: { name: 'Spotify', enabled: true },
-  youtube: { name: 'YouTube Premium', enabled: true }
+  youtube: { name: 'YouTube Premium', enabled: true },
+  stan: { name: 'Stan', enabled: true }
 };
 
 let currentSettings = {};

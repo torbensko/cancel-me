@@ -131,6 +131,36 @@ async function executeCancellation() {
   debugLog(`Starting cancellation for ${service.name}`);
   debugLog(`Current URL: ${window.location.href}`);
 
+  // Check if we need to select a cancellation reason first
+  if (service.cancellation?.reasonSelector || window.location.href.includes('/cancel')) {
+    debugLog('Checking for cancellation reason form...');
+
+    // Build list of reason selectors to try
+    const reasonSelectors = [
+      ...(service.cancellation?.reasonSelector ? [service.cancellation.reasonSelector] : []),
+      ...(window.defaultReasonSelectors || [])
+    ];
+
+    // Try to find and select a reason
+    for (const selector of reasonSelectors) {
+      try {
+        const reasonElement = await findElement([selector], 1000);
+        if (reasonElement && (reasonElement.type === 'radio' || reasonElement.type === 'checkbox')) {
+          debugLog(`Found reason selector: ${selector}`);
+          reasonElement.checked = true;
+          reasonElement.click(); // Trigger any change events
+          debugLog('Selected cancellation reason');
+
+          // Small delay to let form update
+          await new Promise(resolve => setTimeout(resolve, 500));
+          break;
+        }
+      } catch (e) {
+        // Continue trying other selectors
+      }
+    }
+  }
+
   // Build list of selectors to try
   // Service-specific first, then defaults
   const selectorsToTry = [

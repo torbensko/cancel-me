@@ -184,8 +184,50 @@ const servicesConfig = {
       startUrl: 'https://www.youtube.com/paid_memberships',
       selectors: []
     }
+  },
+
+  stan: {
+    name: 'Stan',
+    domain: 'stan.com.au',
+    color: '#0098F7',
+
+    active: {
+      checkUrl: 'https://my.stan.com.au/account',
+      indicators: [
+        'button:contains("Cancel my subscription")',
+        'button.secondary:contains("Cancel")'
+      ]
+    },
+
+    cancellation: {
+      startUrl: 'https://my.stan.com.au/cancel',
+      selectors: [
+        'button:contains("Cancel my subscription")',
+        'button[type="submit"]:contains("Next")',
+        'button:contains("Confirm cancellation")'
+      ],
+      // New: Specify which radio/checkbox to select before proceeding
+      reasonSelector: 'input[type="radio"][value="not-needed"], input#not-needed'
+    }
   }
 };
+
+// Default selectors for cancellation reasons
+// Common patterns for "why are you leaving" forms
+const defaultReasonSelectors = [
+  // Common values for "not needed" or "too expensive"
+  'input[type="radio"][value*="not-needed"]',
+  'input[type="radio"][value*="not_needed"]',
+  'input[type="radio"][value*="no-longer"]',
+  'input[type="radio"][value*="expensive"]',
+  'input[type="radio"][value*="cost"]',
+  'input[type="radio"][value*="other"]',
+  // First radio button as fallback
+  'input[type="radio"]:first-of-type',
+  // Checkbox versions
+  'input[type="checkbox"][value*="not-needed"]',
+  'input[type="checkbox"][value*="other"]'
+];
 
 // Default selectors that will be tried if service-specific ones don't work
 // These are common patterns across most services
@@ -226,13 +268,15 @@ const defaultCancelSelectors = [
 // Service workers don't have window object, so we use different export strategies
 if (typeof module !== 'undefined' && module.exports) {
   // Node.js style export
-  module.exports = { servicesConfig, defaultCancelSelectors };
+  module.exports = { servicesConfig, defaultCancelSelectors, defaultReasonSelectors };
 } else if (typeof self !== 'undefined') {
   // Service worker context
   self.servicesConfig = servicesConfig;
   self.defaultCancelSelectors = defaultCancelSelectors;
+  self.defaultReasonSelectors = defaultReasonSelectors;
 } else if (typeof window !== 'undefined') {
   // Browser window context (content scripts)
   window.servicesConfig = servicesConfig;
   window.defaultCancelSelectors = defaultCancelSelectors;
+  window.defaultReasonSelectors = defaultReasonSelectors;
 }
