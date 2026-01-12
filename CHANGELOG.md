@@ -2,6 +2,14 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.0.4] - 2024-01-12
+
+### Fixed
+- Fixed "servicesConfig has already been declared" error in content script
+- Content script now properly references window.servicesConfig global
+- Removed duplicate variable declarations that caused conflicts
+- Fixed reference to window.defaultCancelSelectors
+
 ## [3.0.3] - 2024-01-12
 
 ### Fixed

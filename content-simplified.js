@@ -10,17 +10,17 @@ function debugLog(message, data = null) {
 }
 
 // Load services configuration
-// The config is loaded via the manifest as a separate script
-let servicesConfig = window.servicesConfig || {};
-let defaultCancelSelectors = window.defaultCancelSelectors || [];
-
-// Wait a moment for config to load if not immediately available
-if (Object.keys(servicesConfig).length === 0) {
+// The config is already loaded via the manifest as a separate script
+// Just reference the globals that services-config.js created
+if (typeof window.servicesConfig === 'undefined') {
   debugLog('Waiting for config to load...');
+  // If config hasn't loaded yet, wait a moment
   setTimeout(() => {
-    servicesConfig = window.servicesConfig || {};
-    defaultCancelSelectors = window.defaultCancelSelectors || [];
-    debugLog('Config loaded:', Object.keys(servicesConfig).length + ' services');
+    if (typeof window.servicesConfig !== 'undefined') {
+      debugLog('Config loaded:', Object.keys(window.servicesConfig).length + ' services');
+    } else {
+      debugLog('Warning: Config failed to load');
+    }
   }, 100);
 }
 
@@ -29,10 +29,12 @@ function detectService() {
   const hostname = window.location.hostname;
   debugLog('Detecting service for hostname:', hostname);
 
-  for (const [key, config] of Object.entries(servicesConfig)) {
-    if (hostname.includes(config.domain)) {
-      debugLog('Service detected:', config.name);
-      return { key, ...config };
+  // Use window.servicesConfig to avoid reference errors
+  const config = window.servicesConfig || {};
+  for (const [key, serviceConfig] of Object.entries(config)) {
+    if (hostname.includes(serviceConfig.domain)) {
+      debugLog('Service detected:', serviceConfig.name);
+      return { key, ...serviceConfig };
     }
   }
 
@@ -133,7 +135,7 @@ async function executeCancellation() {
   // Service-specific first, then defaults
   const selectorsToTry = [
     ...(service.cancellation?.selectors || []),
-    ...defaultCancelSelectors
+    ...(window.defaultCancelSelectors || [])
   ];
 
   debugLog(`Will try ${selectorsToTry.length} selectors`);
