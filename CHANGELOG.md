@@ -2,6 +2,14 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.2.1] - 2024-01-12
+
+### Fixed
+- Stan now properly appears in "Manage Services" settings
+- Options page now merges new services with existing settings
+- Added Stan color styling to both popup and options CSS
+- New services are automatically added to existing user settings
+
 ## [3.2.0] - 2024-01-12
 
 ### Added

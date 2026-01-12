@@ -293,6 +293,7 @@ header h1 {
 .service-amazon { background: #00A8E1; }
 .service-spotify { background: #1DB954; }
 .service-youtube { background: #FF0000; }
+.service-stan { background: #0098F7; }
 
 .empty-state {
   text-align: center;

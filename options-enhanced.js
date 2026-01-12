@@ -44,7 +44,25 @@ function loadSettings() {
 // Load service toggles
 function loadServices() {
   chrome.storage.local.get(['serviceSettings'], (result) => {
-    currentServices = result.serviceSettings || defaultServices;
+    // Merge existing settings with default services to include any new services
+    const existingSettings = result.serviceSettings || {};
+    currentServices = { ...defaultServices };
+
+    // Override with existing user preferences
+    Object.keys(existingSettings).forEach(key => {
+      if (currentServices[key]) {
+        currentServices[key].enabled = existingSettings[key].enabled;
+      }
+    });
+
+    // Add any new services that aren't in storage yet
+    Object.keys(defaultServices).forEach(key => {
+      if (!existingSettings[key]) {
+        // New service, use default settings
+        currentServices[key] = defaultServices[key];
+      }
+    });
+
     renderServiceToggles();
   });
 }
