@@ -127,23 +127,39 @@ async function findElement(selectors, timeout = 5000) {
           if (match) {
             const [, baseSelector, text] = match;
             const elements = document.querySelectorAll(baseSelector || '*');
-            element = Array.from(elements).find(el => {
+            // Find ALL matching elements, then take the last one
+            // This helps with modals which are typically appended later in DOM
+            const matchingElements = Array.from(elements).filter(el => {
               // Normalize whitespace for better matching
               const normalizedText = el.textContent?.replace(/\s+/g, ' ').trim();
               return normalizedText && normalizedText.includes(text);
             });
+            // Take the last matching element (likely the modal button)
+            element = matchingElements.length > 0 ? matchingElements[matchingElements.length - 1] : null;
+
+            if (element && matchingElements.length > 1) {
+              debugLog(`Found ${matchingElements.length} matching elements for "${text}", using the last one`);
+            }
 
             // Also check Shadow DOM for text content
             if (!element) {
               const shadowHosts = document.querySelectorAll('*');
+              let shadowMatches = [];
               for (const host of shadowHosts) {
                 if (host.shadowRoot) {
                   const shadowElements = host.shadowRoot.querySelectorAll(baseSelector || '*');
-                  element = Array.from(shadowElements).find(el => {
+                  const matches = Array.from(shadowElements).filter(el => {
                     const normalizedText = el.textContent?.replace(/\s+/g, ' ').trim();
                     return normalizedText && normalizedText.includes(text);
                   });
-                  if (element) break;
+                  shadowMatches = shadowMatches.concat(matches);
+                }
+              }
+              // Take the last shadow DOM match if any found
+              if (shadowMatches.length > 0) {
+                element = shadowMatches[shadowMatches.length - 1];
+                if (shadowMatches.length > 1) {
+                  debugLog(`Found ${shadowMatches.length} Shadow DOM elements for "${text}", using the last one`);
                 }
               }
             }
