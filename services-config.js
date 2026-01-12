@@ -55,18 +55,21 @@ const servicesConfig = {
     color: '#113CCF',
 
     active: {
-      checkUrl: 'https://www.disneyplus.com/account',
+      checkUrl: 'https://www.disneyplus.com/commerce/account',
       indicators: [
-        'button[data-testid="cancel-button"]',
+        '[data-testid^="account-item-content-D2C"]',
         'button:contains("Cancel")',
-        '[data-testid="subscription-details"]'
+        'a:contains("Cancel")'
       ]
     },
 
     cancellation: {
-      startUrl: 'https://www.disneyplus.com/account/subscription',
+      startUrl: 'https://www.disneyplus.com/commerce/account',
       selectors: [
-        '[data-testid="cancel-button"]'
+        '[data-testid^="account-item-content-D2C"]',
+        'button:contains("Cancel Subscription")',
+        'button:contains("Cancel")',
+        'a:contains("Cancel subscription")'
       ]
     }
   },
@@ -206,10 +209,11 @@ const servicesConfig = {
         'button[type="submit"]:contains("Next")',
         'button:contains("Confirm cancellation")'
       ],
+      // TODO not needed, as we skip reason screen - Stan does not allow us to programmatically select reason
       // Specify which radio/checkbox to select before proceeding
-      reasonSelector: 'input[type="radio"][value="not-needed"], input#not-needed',
+      // reasonSelector: 'input[type="radio"][value="not-needed"]',
       // Add delay after selecting reason (in milliseconds)
-      reasonDelay: 1500
+      // reasonDelay: 1500
     }
   }
 };

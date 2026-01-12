@@ -2,6 +2,17 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.2.5] - 2024-01-12
+
+### Fixed
+- Fixed Disney+ selector syntax error (missing closing bracket and quote)
+- Changed Disney+ selectors to use "starts with" operator (^=) for subscription-specific IDs
+- Added fallback selectors for Disney+ cancellation
+
+### Changed
+- Disney+ now properly handles dynamic subscription IDs like "D2C:12345"
+- Added more robust selectors for Disney+ active status and cancellation
+
 ## [3.2.4] - 2024-01-12
 
 ### Changed
