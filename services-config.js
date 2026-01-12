@@ -130,18 +130,17 @@ const servicesConfig = {
     color: '#0098F7',
 
     active: {
-      // HACK no direct URL to check subscription page
-      checkUrl: 'https://tv.apple.com/au/account/settings',
+      checkUrl: 'https://tv.apple.com/account/settings',
       presentWhenActive: '[data-test="manage-subscription-link"]'
     },
 
     cancellation: {
-      // skip past the reason screen
-      checkUrl: 'https://tv.apple.com/au/account/settings',
+      startUrl: 'https://tv.apple.com/account/settings',
       selectors: [
         'button[data-test="manage-subscription-link"]',
-        'button:contains("Cancel Subscription")'
-      ],
+        'button:contains("Cancel Subscription")',
+        'button:contains("Cancel Free Trial")'
+      ]
     }
   }
 };

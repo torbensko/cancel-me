@@ -2,6 +2,15 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.5.2] - 2024-01-12
+
+### Fixed
+- Fixed Apple TV+ cancellation configuration
+- Changed `checkUrl` to `startUrl` in cancellation section (was a typo)
+- Removed region-specific `/au` from URLs to work globally
+- Added "Cancel Free Trial" selector for trial users
+- Selector correctly uses `button[data-test="manage-subscription-link"]`
+
 ## [3.5.1] - 2024-01-12
 
 ### Changed
