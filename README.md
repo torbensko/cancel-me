@@ -12,6 +12,8 @@ A browser extension that automates the entire subscription cancellation process.
 - **Status Check** - Instantly check if your subscriptions are still active
 - **Automatic Cancellation** - Click cancel and the extension completes the entire process for you
 
+*Runs entirely locally in your browser. Requires you to be logged into services beforehand.*
+
 ## 📺 Supported Services
 
 Currently supports popular streaming and subscription services:
@@ -79,34 +81,6 @@ Access settings through the extension popup:
 - **Auto Status Check** - Automatically check subscription status (coming soon)
 - **Debug Mode** - Enable detailed logging for troubleshooting
 
-## 🏗️ Architecture
-
-```
-cancel-me/
-├── manifest.json           # Extension configuration (v3.6.3)
-├── background-v3.js        # Service worker for background tasks
-├── content-simplified.js   # Content script for page interaction
-├── services-config.js      # Service-specific configurations
-├── popup-enhanced.html     # Main popup interface
-├── options-enhanced.html   # Settings page
-├── icons/                  # Extension icons
-└── README.md              # Documentation
-```
-
-## 🔒 Privacy & Security
-
-- **Local Storage Only** - All data stored locally in your browser
-- **No External Servers** - No data sent to third parties
-- **Domain-Specific** - Only activates on configured streaming service domains
-- **User-Initiated** - Cancellations only occur when YOU click the cancel button
-
-## ⚠️ Important Notes
-
-- **User-Initiated Automation** - The extension automatically completes cancellations ONLY when you click the cancel button
-- **Login Required** - You must be logged into each service for the extension to work
-- **Service Changes** - Streaming services may update their interfaces, requiring extension updates
-- **2FA/Payment Verification** - Some services may require additional authentication before cancellation
-
 ## 🐛 Known Limitations
 
 - Apple TV+ cancellation may have limited functionality due to iframe restrictions
@@ -114,42 +88,7 @@ cancel-me/
 - Page layout changes may temporarily break detection
 - Cannot bypass two-factor authentication or payment verification steps
 
-## 🤝 Contributing
 
-This is an early access project and contributions are welcome!
-
-### How to Contribute
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/new-service`)
-3. Commit your changes (`git commit -am 'Add support for new service'`)
-4. Push to the branch (`git push origin feature/new-service`)
-5. Open a Pull Request
-
-### Adding New Services
-
-To add support for a new streaming service:
-
-1. Add domain to `host_permissions` in [manifest.json](manifest.json)
-2. Add service configuration to [services-config.js](services-config.js)
-3. Add UI elements to popup interface
-4. Test thoroughly with the actual service
-
-## 📝 Changelog
-
-### Version 3.6.3 (Latest)
-
-- Improved Apple TV+ iframe detection
-- Enhanced modal confirmation handling
-- Fixed element selection for dynamic content
-- Added comprehensive error recovery
-
-### Version 3.0.0
-
-- Major refactor with simplified content scripts
-- Enhanced service configuration system
-- Improved debugging capabilities
-- Better error handling and user feedback
 
 ## 📄 License
 
