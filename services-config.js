@@ -57,10 +57,9 @@ const servicesConfig = {
     active: {
       checkUrl: 'https://www.disneyplus.com/commerce/account',
       indicators: [
-        '[data-testid^="account-item-content-D2C"]',
-        'button:contains("Cancel")',
-        'a:contains("Cancel")'
-      ]
+        '[data-testid^="account-item-content-D2C"]'
+      ],
+      presentWhenInactive: ['button:contains("Restart Subscription")']
     },
 
     cancellation: {

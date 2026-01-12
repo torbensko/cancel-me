@@ -2,6 +2,25 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.3.0] - 2024-01-12
+
+### Added
+- Lucide icons library for modern, consistent icons
+- External-link icon for Account button (box with corner arrow)
+- Refresh icon for Check Status button
+- X-circle icon for Cancel button
+- Settings gear icon in header
+
+### Changed
+- Replaced all emoji icons with Lucide SVG icons
+- Account button now uses external-link icon as requested
+- Icons are properly sized and styled
+- Better visual consistency across the interface
+
+### Improved
+- Button styling to properly align icons and text
+- Icon initialization after DOM updates
+
 ## [3.2.5] - 2024-01-12
 
 ### Fixed

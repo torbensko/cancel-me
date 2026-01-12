@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadServices();
   loadLastCheckTime();
   setupEventHandlers();
+
+  // Initialize Lucide icons
+  if (window.lucide) {
+    lucide.createIcons();
+  }
 });
 
 // Load services and their statuses
@@ -44,6 +49,11 @@ async function loadServices() {
         }
       });
 
+      // Initialize Lucide icons after adding elements
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
       // Show/hide cancel all button
       const cancelAllBtn = document.getElementById('cancelAllActiveBtn');
       cancelAllBtn.style.display = hasActiveServices ? 'block' : 'none';
@@ -77,14 +87,15 @@ function createServiceElement(id, service, status) {
     </div>
     <div class="service-actions">
       <button class="btn-action btn-account" data-service="${id}" data-url="${service.active?.checkUrl || ''}" title="View Account">
-        📊
+        <i data-lucide="external-link" class="icon-small"></i>
       </button>
       <button class="btn-action btn-check" data-service="${id}" title="Check Status">
-        🔄
+        <i data-lucide="refresh-cw" class="icon-small"></i>
       </button>
       ${status.status === 'active' ? `
         <button class="btn-action btn-cancel" data-service="${id}" title="Cancel Subscription">
-          Cancel
+          <i data-lucide="x-circle" class="icon-small"></i>
+          <span>Cancel</span>
         </button>
       ` : ''}
     </div>
