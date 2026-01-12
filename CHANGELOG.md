@@ -2,6 +2,13 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.4.2] - 2024-01-12
+
+### Fixed
+- Added Lucide icons library to options page
+- Icons now properly initialize on options page
+- Initialize icons after dynamically adding content
+
 ## [3.4.1] - 2024-01-12
 
 ### Fixed
