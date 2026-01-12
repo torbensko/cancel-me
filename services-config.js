@@ -10,7 +10,7 @@ const servicesConfig = {
 
     // Check if subscription is active
     active: {
-      checkUrl: 'https://www.netflix.com/account',
+      checkUrl: 'https://www.netflix.com/account/membership',
       // If any of these exist, subscription is active
       indicators: [
         '[data-uia="cancel-button"]',
@@ -20,7 +20,7 @@ const servicesConfig = {
 
     // Cancellation flow
     cancellation: {
-      startUrl: 'https://www.netflix.com/account/membership',
+      startUrl: 'https://www.netflix.com/cancelplan',
       // Service-specific selectors to try first
       selectors: [
         '[data-uia="cancel-button"]',
