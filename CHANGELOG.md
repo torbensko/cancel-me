@@ -2,6 +2,18 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.4.1] - 2024-01-12
+
+### Fixed
+- Options page now dynamically loads services from services-config.js
+- Removed hardcoded service list from options-enhanced.js
+- Services in "Manage Services" now match exactly what's in services-config.js
+
+### Changed
+- Options page requests services from background script
+- Single source of truth for available services (services-config.js)
+- Adding/removing services from config automatically updates everywhere
+
 ## [3.4.0] - 2024-01-12
 
 ### Changed

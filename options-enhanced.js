@@ -1,20 +1,8 @@
 // Enhanced options page script
 
-const defaultServices = {
-  netflix: { name: 'Netflix', enabled: true },
-  hulu: { name: 'Hulu', enabled: true },
-  disney: { name: 'Disney+', enabled: true },
-  hbo: { name: 'HBO Max', enabled: true },
-  peacock: { name: 'Peacock', enabled: true },
-  paramount: { name: 'Paramount+', enabled: true },
-  amazon: { name: 'Prime Video', enabled: true },
-  spotify: { name: 'Spotify', enabled: true },
-  youtube: { name: 'YouTube Premium', enabled: true },
-  stan: { name: 'Stan', enabled: true }
-};
-
 let currentSettings = {};
 let currentServices = {};
+let availableServices = {}; // Will be loaded from background script
 
 document.addEventListener('DOMContentLoaded', () => {
   loadSettings();
@@ -42,28 +30,33 @@ function loadSettings() {
 }
 
 // Load service toggles
-function loadServices() {
-  chrome.storage.local.get(['serviceSettings'], (result) => {
-    // Merge existing settings with default services to include any new services
-    const existingSettings = result.serviceSettings || {};
-    currentServices = { ...defaultServices };
+async function loadServices() {
+  // First, get available services from background script (which has services-config.js)
+  chrome.runtime.sendMessage({ action: 'getServices' }, (response) => {
+    if (response && response.services) {
+      availableServices = response.services;
 
-    // Override with existing user preferences
-    Object.keys(existingSettings).forEach(key => {
-      if (currentServices[key]) {
-        currentServices[key].enabled = existingSettings[key].enabled;
-      }
-    });
+      // Then get stored user preferences
+      chrome.storage.local.get(['serviceSettings'], (result) => {
+        const existingSettings = result.serviceSettings || {};
+        currentServices = {};
 
-    // Add any new services that aren't in storage yet
-    Object.keys(defaultServices).forEach(key => {
-      if (!existingSettings[key]) {
-        // New service, use default settings
-        currentServices[key] = defaultServices[key];
-      }
-    });
+        // Build service list from services-config.js
+        Object.entries(availableServices).forEach(([key, service]) => {
+          currentServices[key] = {
+            name: service.name,
+            // Use stored preference if exists, otherwise default to true
+            enabled: existingSettings[key]?.enabled !== undefined
+              ? existingSettings[key].enabled
+              : true
+          };
+        });
 
-    renderServiceToggles();
+        renderServiceToggles();
+      });
+    } else {
+      console.error('Failed to load services from background');
+    }
   });
 }
 
