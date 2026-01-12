@@ -2,6 +2,23 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.5.0] - 2024-01-12
+
+### Changed
+- Replaced external Lucide CDN with local SVG icons
+- Created icons.js with inline SVG definitions
+- Icons now work properly with Chrome extension CSP restrictions
+
+### Fixed
+- Icons now display correctly in popup and options pages
+- No more Content Security Policy errors from external scripts
+- Proper SVG rendering with correct sizing
+
+### Technical
+- Removed dependency on external Lucide library
+- Direct SVG injection for better performance
+- Works offline without CDN dependency
+
 ## [3.4.2] - 2024-01-12
 
 ### Fixed

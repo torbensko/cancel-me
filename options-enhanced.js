@@ -9,11 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadServices();
   loadStatusSummary();
   setupEventHandlers();
-
-  // Initialize Lucide icons
-  if (window.lucide) {
-    lucide.createIcons();
-  }
 });
 
 // Load current settings
@@ -74,11 +69,6 @@ function renderServiceToggles() {
     const toggle = createServiceToggle(id, service);
     container.appendChild(toggle);
   });
-
-  // Initialize Lucide icons after adding elements
-  if (window.lucide) {
-    lucide.createIcons();
-  }
 }
 
 // Create service toggle element
@@ -155,11 +145,6 @@ function renderStatusSummary(summary) {
       <div class="status-label">Not Checked</div>
     </div>
   `;
-
-  // Initialize Lucide icons if any were added
-  if (window.lucide) {
-    lucide.createIcons();
-  }
 }
 
 // Save settings

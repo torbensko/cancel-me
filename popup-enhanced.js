@@ -1,15 +1,24 @@
 // Enhanced popup script with status checking and cancellation
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Initialize icons
+  initializeIcons();
+
   loadServices();
   loadLastCheckTime();
   setupEventHandlers();
-
-  // Initialize Lucide icons
-  if (window.lucide) {
-    lucide.createIcons();
-  }
 });
+
+// Initialize icon placeholders with SVGs
+function initializeIcons() {
+  if (window.appIcons) {
+    // Settings icon
+    const settingsIcon = document.querySelector('.icon-settings');
+    if (settingsIcon) {
+      settingsIcon.innerHTML = window.appIcons.settings;
+    }
+  }
+}
 
 // Load services and their statuses
 async function loadServices() {
@@ -49,11 +58,6 @@ async function loadServices() {
         }
       });
 
-      // Initialize Lucide icons after adding elements
-      if (window.lucide) {
-        lucide.createIcons();
-      }
-
       // Show/hide cancel all button
       const cancelAllBtn = document.getElementById('cancelAllActiveBtn');
       cancelAllBtn.style.display = hasActiveServices ? 'block' : 'none';
@@ -76,6 +80,10 @@ function createServiceElement(id, service, status) {
     billingInfo = `<span class="next-billing">Next: ${status.nextBilling}</span>`;
   }
 
+  const externalIcon = window.appIcons ? window.appIcons.externalLink : '';
+  const refreshIcon = window.appIcons ? window.appIcons.refreshCw : '';
+  const cancelIcon = window.appIcons ? window.appIcons.xCircle : '';
+
   div.innerHTML = `
     <div class="service-logo ${logoClass}">${service.name.substring(0, 2).toUpperCase()}</div>
     <div class="service-info">
@@ -87,14 +95,14 @@ function createServiceElement(id, service, status) {
     </div>
     <div class="service-actions">
       <button class="btn-action btn-account" data-service="${id}" data-url="${service.active?.checkUrl || ''}" title="View Account">
-        <i data-lucide="external-link" class="icon-small"></i>
+        ${externalIcon}
       </button>
       <button class="btn-action btn-check" data-service="${id}" title="Check Status">
-        <i data-lucide="refresh-cw" class="icon-small"></i>
+        ${refreshIcon}
       </button>
       ${status.status === 'active' ? `
         <button class="btn-action btn-cancel" data-service="${id}" title="Cancel Subscription">
-          <i data-lucide="x-circle" class="icon-small"></i>
+          ${cancelIcon}
           <span>Cancel</span>
         </button>
       ` : ''}

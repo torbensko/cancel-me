@@ -122,6 +122,27 @@ const servicesConfig = {
       // Add delay after selecting reason (in milliseconds)
       // reasonDelay: 1500
     }
+  },
+  
+  appletv: {
+    name: 'Apple TV+',
+    domain: 'tv.apple.com',
+    color: '#0098F7',
+
+    active: {
+      // HACK no direct URL to check subscription page
+      checkUrl: 'https://tv.apple.com/au/account/settings',
+      presentWhenActive: '[data-test="manage-subscription-link"]'
+    },
+
+    cancellation: {
+      // skip past the reason screen
+      checkUrl: 'https://tv.apple.com/au/account/settings',
+      selectors: [
+        'button[data-test="manage-subscription-link"]',
+        'button:contains("Cancel Subscription")'
+      ],
+    }
   }
 };
 

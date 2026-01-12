@@ -46,9 +46,10 @@ header h1 {
   color: white;
 }
 
-.settings-btn i {
+.settings-btn svg, .icon-settings svg {
   width: 20px;
   height: 20px;
+  display: inline-block;
 }
 
 .settings-btn:hover {
@@ -193,14 +194,11 @@ header h1 {
   gap: 4px;
 }
 
-.btn-action i {
+.btn-action svg {
   width: 14px;
   height: 14px;
-}
-
-.icon-small {
-  width: 14px;
-  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .btn-account {
