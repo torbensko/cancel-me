@@ -2,6 +2,28 @@
 
 All notable changes to the Subscription Manager extension will be documented in this file.
 
+## [3.0.0] - 2024-01-12
+
+### Changed (BREAKING)
+- **Major refactoring**: Simplified entire codebase for easier maintenance
+- Created centralized `services-config.js` for all service configurations
+- Simplified configuration structure - each service only needs unique selectors
+- Introduced default text-based selectors that work across most services
+- Cancellation now tries service-specific selectors first, then falls back to defaults
+- Removed complex page pattern matching in favor of simple sequential clicking
+
+### Added
+- Default cancel button patterns that work with text like "Cancel", "Finish", "Confirm", etc.
+- Smart detection that tries multiple selector types
+- Simplified content script that's easier to debug
+- Better separation of concerns with dedicated config file
+
+### Improved
+- Much easier to add new services - just add to services-config.js
+- Reduced code duplication across services
+- More maintainable and readable code structure
+- Better fallback behavior when service-specific selectors fail
+
 ## [2.0.2] - 2024-01-12
 
 ### Fixed

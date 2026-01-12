@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Subscription Manager",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Helps manage streaming service subscriptions by navigating to cancellation pages",
 
   "permissions": [
@@ -31,7 +31,7 @@
   ],
 
   "background": {
-    "service_worker": "background-v2.js"
+    "service_worker": "background-v3.js"
   },
 
   "content_scripts": [
@@ -51,7 +51,7 @@
         "https://*.spotify.com/*",
         "https://*.youtube.com/*"
       ],
-      "js": ["content-debug.js"],
+      "js": ["services-config.js", "content-simplified.js"],
       "run_at": "document_idle"
     }
   ],
