@@ -77,16 +77,15 @@ const servicesConfig = {
     color: '#B535F6',
 
     active: {
-      checkUrl: 'https://play.max.com/account',
+      checkUrl: 'https://auth.hbomax.com/subscription',
       indicators: [
-        'a[href*="cancel-subscription"]',
-        'button:contains("Cancel")'
+        'a:contains("Cancel Your Subscription")'
       ]
     },
 
     cancellation: {
-      startUrl: 'https://play.max.com/account',
-      selectors: []
+      startUrl: 'https://auth.hbomax.com/cancel-subscription',
+      selectors: ['[data-testid="retention-offer-action-footer-continue-button"]']
     }
   },
 
