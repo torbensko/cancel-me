@@ -194,17 +194,16 @@ const servicesConfig = {
     active: {
       checkUrl: 'https://my.stan.com.au/account',
       indicators: [
-        'button:contains("Cancel my subscription")',
-        'button.secondary:contains("Cancel")'
+        'button:contains("Cancel my subscription")'
       ]
     },
 
     cancellation: {
-      startUrl: 'https://my.stan.com.au/cancel',
+      // skip past the reason screen
+      startUrl: 'https://my.stan.com.au/cancel/save?reason=not-needed',
       selectors: [
         'button:contains("Cancel my subscription")',
         'button[type="submit"]:contains("Next")',
-        'button.primary:contains("Confirm cancellation")',
         'button:contains("Confirm cancellation")'
       ],
       // Specify which radio/checkbox to select before proceeding
