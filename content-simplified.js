@@ -42,7 +42,7 @@ function detectService() {
   return null;
 }
 
-// Check if element exists using various selector types
+// Enhanced element finding with Shadow DOM and attribute search support
 async function findElement(selectors, timeout = 5000) {
   if (!Array.isArray(selectors)) {
     selectors = [selectors];
@@ -50,24 +50,128 @@ async function findElement(selectors, timeout = 5000) {
 
   const startTime = Date.now();
 
+  // For Apple TV+, use a longer timeout and special handling
+  const service = detectService();
+  if (service && service.key === 'appletv') {
+    timeout = Math.max(timeout, 10000); // Minimum 10 seconds for Apple TV+
+    debugLog('Using extended timeout for Apple TV+');
+  }
+
+  // Helper to search in Shadow DOM
+  function searchInShadowDOM(selector, root = document) {
+    // First try regular query
+    let element = root.querySelector(selector);
+    if (element) return element;
+
+    // Search through all elements that might have shadow roots
+    const allElements = root.querySelectorAll('*');
+    for (const el of allElements) {
+      if (el.shadowRoot) {
+        element = searchInShadowDOM(selector, el.shadowRoot);
+        if (element) return element;
+      }
+    }
+    return null;
+  }
+
+  // Helper for attribute-based search (more robust for dynamic content)
+  function findByAttribute(attrName, attrValue, tagName = '*') {
+    // Try exact match first
+    const exactMatch = document.querySelector(`${tagName}[${attrName}="${attrValue}"]`);
+    if (exactMatch) return exactMatch;
+
+    // Try manual attribute search (works even when querySelector fails)
+    const elements = document.getElementsByTagName(tagName);
+    for (let el of elements) {
+      if (el.getAttribute(attrName) === attrValue) {
+        debugLog(`Found element via getAttribute: ${attrName}="${attrValue}"`);
+        return el;
+      }
+    }
+
+    // Search in Shadow DOM
+    const shadowHosts = document.querySelectorAll('*');
+    for (const host of shadowHosts) {
+      if (host.shadowRoot) {
+        const shadowElements = host.shadowRoot.querySelectorAll(tagName);
+        for (let el of shadowElements) {
+          if (el.getAttribute(attrName) === attrValue) {
+            debugLog(`Found element in Shadow DOM: ${attrName}="${attrValue}"`);
+            return el;
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
   while (Date.now() - startTime < timeout) {
     for (const selector of selectors) {
       try {
         let element = null;
 
+        // Special handling for data-test attributes (Apple TV+ case)
+        if (selector.includes('[data-test=') || selector.includes('[data-test^=')) {
+          const match = selector.match(/(\w+)?\[data-test[\^]?="?([^"\]]+)"?\]/);
+          if (match) {
+            const [, tagName, attrValue] = match;
+            debugLog(`Searching for data-test="${attrValue}" in ${tagName || '*'} elements`);
+            element = findByAttribute('data-test', attrValue, tagName || '*');
+          }
+        }
+
         // Handle :contains() pseudo-selector
-        if (selector.includes(':contains(')) {
+        else if (selector.includes(':contains(')) {
           const match = selector.match(/(.*?):contains\(["']?([^"')]+)["']?\)/);
           if (match) {
             const [, baseSelector, text] = match;
             const elements = document.querySelectorAll(baseSelector || '*');
-            element = Array.from(elements).find(el =>
-              el.textContent && el.textContent.includes(text)
-            );
+            element = Array.from(elements).find(el => {
+              // Normalize whitespace for better matching
+              const normalizedText = el.textContent?.replace(/\s+/g, ' ').trim();
+              return normalizedText && normalizedText.includes(text);
+            });
+
+            // Also check Shadow DOM for text content
+            if (!element) {
+              const shadowHosts = document.querySelectorAll('*');
+              for (const host of shadowHosts) {
+                if (host.shadowRoot) {
+                  const shadowElements = host.shadowRoot.querySelectorAll(baseSelector || '*');
+                  element = Array.from(shadowElements).find(el => {
+                    const normalizedText = el.textContent?.replace(/\s+/g, ' ').trim();
+                    return normalizedText && normalizedText.includes(text);
+                  });
+                  if (element) break;
+                }
+              }
+            }
           }
-        } else {
-          // Regular CSS selector
-          element = document.querySelector(selector);
+        }
+
+        // Try regular selector with Shadow DOM support
+        else {
+          element = searchInShadowDOM(selector);
+        }
+
+        // Check in iframes as last resort
+        if (!element) {
+          const iframes = document.querySelectorAll('iframe');
+          for (const iframe of iframes) {
+            try {
+              const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+              if (iframeDoc) {
+                element = iframeDoc.querySelector(selector);
+                if (element) {
+                  debugLog(`Found element in iframe: ${selector}`);
+                  break;
+                }
+              }
+            } catch (e) {
+              // Cross-origin iframe, skip
+            }
+          }
         }
 
         if (element) {
@@ -75,7 +179,7 @@ async function findElement(selectors, timeout = 5000) {
           return element;
         }
       } catch (e) {
-        // Invalid selector, skip
+        debugLog(`Selector error for "${selector}": ${e.message}`);
       }
     }
 
@@ -144,48 +248,46 @@ async function executeCancellation() {
   debugLog(`Starting cancellation for ${service.name}`);
   debugLog(`Current URL: ${window.location.href}`);
 
-  // Look for cancellation reason form elements on the page (element-based, not URL-based)
-  debugLog('Checking for cancellation reason forms...');
+  // Only check for reason forms if the service explicitly defines a reasonSelector
+  if (service.cancellation?.reasonSelector) {
+    debugLog('Service has explicit reason selector, checking for form...');
 
-  // Build list of reason selectors to try
-  const reasonSelectors = [
-    ...(service.cancellation?.reasonSelector ? [service.cancellation.reasonSelector] : []),
-    ...(window.defaultReasonSelectors || [])
-  ];
+    const reasonSelectors = [service.cancellation.reasonSelector];
 
-  // Try to find and select a reason if form elements exist
-  let reasonSelected = false;
-  for (const selector of reasonSelectors) {
-    try {
-      const reasonElement = await findElement([selector], 500); // Quick check for existence
-      if (reasonElement && (reasonElement.type === 'radio' || reasonElement.type === 'checkbox')) {
-        debugLog(`Found reason form with selector: ${selector}`);
+    // Try to find and select a reason
+    let reasonSelected = false;
+    for (const selector of reasonSelectors) {
+      try {
+        const reasonElement = await findElement([selector], 500); // Quick check for existence
+        if (reasonElement && (reasonElement.type === 'radio' || reasonElement.type === 'checkbox')) {
+          debugLog(`Found reason form with selector: ${selector}`);
 
-        // Only select if not already selected
-        if (!reasonElement.checked) {
-          reasonElement.checked = true;
-          reasonElement.click(); // Trigger any change events
-          debugLog('Selected cancellation reason');
-          reasonSelected = true;
+          // Only select if not already selected
+          if (!reasonElement.checked) {
+            reasonElement.checked = true;
+            reasonElement.click(); // Trigger any change events
+            debugLog('Selected cancellation reason');
+            reasonSelected = true;
 
-          // Use service-specific delay or default to 1000ms
-          const delay = service.cancellation?.reasonDelay || 1000;
-          debugLog(`Waiting ${delay}ms for form to update...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
-        } else {
-          debugLog('Reason already selected');
+            // Use service-specific delay or default to 1000ms
+            const delay = service.cancellation?.reasonDelay || 1000;
+            debugLog(`Waiting ${delay}ms for form to update...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+          } else {
+            debugLog('Reason already selected');
+          }
+          break;
         }
-        break;
+      } catch (e) {
+        // Element doesn't exist, continue
       }
-    } catch (e) {
-      // Element doesn't exist, continue checking other selectors
     }
-  }
 
-  if (reasonSelected) {
-    debugLog('Reason selected, proceeding to find action buttons');
+    if (reasonSelected) {
+      debugLog('Reason selected, proceeding to find action buttons');
+    }
   } else {
-    debugLog('No reason form found or already selected, looking for action buttons');
+    debugLog('No explicit reason selector defined, proceeding directly to action buttons');
   }
 
   // Build list of selectors to try

@@ -130,14 +130,16 @@ const servicesConfig = {
     color: '#0098F7',
 
     active: {
-      checkUrl: 'https://tv.apple.com/account/settings',
+      checkUrl: 'https://tv.apple.com/au/account/settings',
       presentWhenActive: '[data-test="manage-subscription-link"]'
     },
 
     cancellation: {
-      startUrl: 'https://tv.apple.com/account/settings',
+      startUrl: 'https://tv.apple.com/au/account/settings',
       selectors: [
-        'button[data-test="manage-subscription-link"]',
+        '[data-test="manage-subscription-link"]',
+        '[data-test="cta-cancel-plan"]',
+        'button[data-test="cta-cancel-plan"]',
         'button:contains("Cancel Subscription")',
         'button:contains("Cancel Free Trial")'
       ]
